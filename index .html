@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Airdrop Mini App</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(to bottom, #000000, #001f3f);
+            color: white;
+        }
+        .water-drop {
+            width: 150px;
+            height: 150px;
+            background-color: #007bff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            cursor: pointer;
+            margin: 20px auto;
+        }
+        .task {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .task a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .task a.completed {
+            color: #28a745;
+            pointer-events: none;
+        }
+        .interface {
+            display: none;
+        }
+        .interface.active {
+            display: block;
+        }
+        .vip-option {
+            margin: 10px 0;
+        }
+        .leaderboard {
+            margin: 20px auto;
+            width: 80%;
+            border-collapse: collapse;
+        }
+        .leaderboard th, .leaderboard td {
+            border: 1px solid #007bff;
+            padding: 10px;
+        }
+        .referral-link {
+            margin: 20px 0;
+        }
+        .profile-info {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Interface 1: Home -->
+    <div id="interface1" class="interface active">
+        <h1>🌊 Water Airdrop Mini App</h1>
+        <p>Welcome to the Water Airdrop Mini App!</p>
+        <button onclick="switchInterface('interface2')">Tap to Earn</button>
+        <button onclick="switchInterface('interface3')">Tasks</button>
+        <button onclick="switchInterface('interface8')">VIP</button>
+        <button onclick="switchInterface('interface5')">Leaderboard</button>
+        <button onclick="switchInterface('interface6')">Profile</button>
+        <button onclick="switchInterface('interface7')">Referral</button>
+    </div>
+
+    <!-- Interface 2: Tap to Earn -->
+    <div id="interface2" class="interface">
+        <h1>🌊 Tap to Earn</h1>
+        <p>Tap the water drop to earn Water Points!</p>
+        <div class="water-drop" onclick="tap()">💧</div>
+        <p id="points">Water Points: 0</p>
+        <p id="waterLevel">Level: Bottle</p>
+        <button onclick="switchInterface('interface1')">Back to Home</button>
+    </div>
+
+    <!-- Interface 3: Tasks -->
+    <div id="interface3" class="interface">
+        <h2>📋 Tasks</h2>
+        <div class="task">
+            <span>1. Connect TON Wallet (20,000 Points)</span>
+            <a href="#" id="connect_wallet" onclick="startTask('connect_wallet')">Start Task</a>
+        </div>
+        <div class="task">
+            <span>2. Subscribe to YouTube Channel (50,000 Points)</span>
+            <a href="https://www.youtube.com/@WATERDROPIES" target="_blank" id="subscribe_youtube" onclick="startTask('subscribe_youtube')">Start Task</a>
+        </div>
+        <div class="task">
+            <span>3. Follow Water on Instagram (50,000 Points)</span>
+            <a href="https://www.instagram.com/water_tge?igsh=Z25la29jdWZzNjl6" target="_blank" id="follow_water_instagram" onclick="startTask('follow_water_instagram')">Start Task</a>
+        </div>
+        <div class="task">
+            <span>4. Follow Author on Instagram (20,000 Points)</span>
+            <a href="https://www.instagram.com/that_a4yan?igsh=NmZlbzM3aWVnN2Vy" target="_blank" id="follow_author_instagram" onclick="startTask('follow_author_instagram')">Start Task</a>
+        </div>
+        <div class="task">
+            <span>5. Join Telegram Community (10,000 Points)</span>
+            <a href="https://t.me/WATER_DROPIES" target="_blank" id="join_telegram_community" onclick="startTask('join_telegram_community')">Start Task</a>
+        </div>
+        <div class="task">
+            <span>6. Join Telegram Group (10,000 Points)</span>
+            <a href="https://t.me/WATER_DROPIES" target="_blank" id="join_telegram_group" onclick="startTask('join_telegram_group')">Start Task</a>
+        </div>
+        <div class="task">
+            <span>7. Follow Water on Twitter (19,000 Points)</span>
+            <a href="https://x.com/ACricketer87008?t=QONqWjgSIlRUUqzcUZg8NA&s=09" target="_blank" id="follow_water_twitter" onclick="startTask('follow_water_twitter')">Start Task</a>
+        </div>
+        <div class="task">
+            <span>8. Follow Author on Twitter (1,800 Points)</span>
+            <a href="https://x.com/fall_edits?s=09" target="_blank" id="follow_author_twitter" onclick="startTask('follow_author_twitter')">Start Task</a>
+        </div>
+        <button onclick="switchInterface('interface1')">Back to Home</button>
+    </div>
+
+    <!-- Interface 8: VIP -->
+    <div id="interface8" class="interface">
+        <h2>🌟 VIP</h2>
+        <p>Purchase VIP passes to unlock exclusive rewards!</p>
+        <div class="vip-option">
+            <button onclick="buyVipPass('retailer')">Retailer Pass - 1.99 TON</button>
+        </div>
+        <div class="vip-option">
+            <button onclick="buyVipPass('insider')">Insider Pass - 4.99 TON</button>
+        </div>
+        <div class="vip-option">
+            <button onclick="buyVipPass('big_bull')">Big Bull Pass - 8.99 TON</button>
+        </div>
+        <div class="vip-option">
+            <button onclick="buyVipPass('whale')">Whale Pass - 12.99 TON</button>
+        </div>
+        <button onclick="switchInterface('interface1')">Back to Home</button>
+    </div>
+
+    <!-- Interface 5: Leaderboard -->
+    <div id="interface5" class="interface">
+        <h2>🏆 Leaderboard</h2>
+        <table class="leaderboard">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>User</th>
+                    <th>Water Points</th>
+                </tr>
+            </thead>
+            <tbody id="leaderboardBody">
+                <!-- Leaderboard rows will be dynamically added here -->
+            </tbody>
+        </table>
+        <button onclick="switchInterface('interface1')">Back to Home</button>
+    </div>
+
+    <!-- Interface 6: Profile -->
+    <div id="interface6" class="interface">
+        <h2>👤 Profile</h2>
+        <div class="profile-info">
+            <p><strong>UID:</strong> <span id="userUID">USER12345</span></p>
+            <p><strong>Water Points:</strong> <span id="profilePoints">0</span></p>
+            <p><strong>Level:</strong> <span id="profileLevel">Bottle</span></p>
+            <p><strong>VIP Status:</strong> <span id="vipStatus">None</span></p>
+            <p><strong>VIP Expiry:</strong> <span id="vipExpiry">N/A</span></p>
+        </div>
+        <button onclick="switchInterface('interface1')">Back to Home</button>
+    </div>
+
+    <!-- Interface 7: Referral -->
+    <div id="interface7" class="interface">
+        <h2>📤 Referral</h2>
+        <p>Share your referral link to earn more Water Points!</p>
+        <div class="referral-link">
+            <p>Your Referral Link:</p>
+            <p id="referralLink">https://t.me/WATERRAINDROPS_BOT?start=REF12345</p>
+            <button onclick="copyReferralLink()">Copy Link</button>
+        </div>
+        <button onclick="switchInterface('interface1')">Back to Home</button>
+    </div>
+
+    <script>
+        let waterPoints = parseInt(localStorage.getItem("waterPoints")) || 0;
+        let tapCount = parseInt(localStorage.getItem("tapCount")) || 0;
+        const maxTaps = 1000;
+        const completedTasks = new Set(JSON.parse(localStorage.getItem("completedTasks")) || []);
+        const leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
+        const userUID = "USER12345"; // Replace with dynamic UID logic
+        const referralLink = "https://t.me/WATERRAINDROPS_BOT?start=REF12345"; // Replace with dynamic referral link logic
+
+        // VIP Pass Data
+        let vipData = JSON.parse(localStorage.getItem("vipData")) || {
+            pass: null,
+            expiry: null,
+            additionalClicks: 0,
+            pointsPerClick: 1,
+        };
+
+        // Initialize Telegram Web App
+        Telegram.WebApp.ready();
+
+        // Initialize TON Connect
+        const tonConnectUI = new TonConnectUI({
+            manifestUrl: 'https://your-app.com/tonconnect-manifest.json',
+        });
+
+        // Function to handle tap
+        function tap() {
+            const maxClicks = maxTaps + vipData.additionalClicks;
+            if (tapCount < maxClicks) {
+                waterPoints += vipData.pointsPerClick;
+                tapCount += 1;
+                updatePoints();
+                updateWaterLevel();
+                saveData();
+            } else {
+                alert("You've reached the maximum number of taps for today!");
+            }
+        }
+
+        // Function to start a task
+        function startTask(task) {
+            const taskLink = document.getElementById(task);
+            if (taskLink) {
+                taskLink.textContent = 'Claim';
+                taskLink.onclick = () => claimTask(task);
+            }
+        }
+
+        // Function to claim a task
+        function claimTask(task) {
+            if (!completedTasks.has(task)) {
+                completedTasks.add(task);
+                updateTaskUI(task);
+
+                let points = 0;
+                switch (task) {
+                    case 'connect_wallet':
+                        points = 20000;
+                        break;
+                    case 'subscribe_youtube':
+                        points = 50000;
+                        break;
+                    case 'follow_water_instagram':
+                        points = 50000;
+                        break;
+                    case 'follow_author_instagram':
+                        points = 20000;
+                        break;
+                    case 'join_telegram_community':
+                        points = 10000;
+                        break;
+                    case 'join_telegram_group':
+                        points = 10000;
+                        break;
+                    case 'follow_water_twitter':
+                        points = 19000;
+                        break;
+                    case 'follow_author_twitter':
+                        points = 1800;
+                        break;
+                }
+                waterPoints += points;
+                updatePoints();
+                updateWaterLevel();
+                saveData();
+            }
+        }
+
+        // Function to update task UI
+        function updateTaskUI(task) {
+            const taskLink = document.getElementById(task);
+            if (taskLink) {
+                taskLink.textContent = 'Completed';
+                taskLink.classList.add('completed');
+                taskLink.onclick = null;
+            }
+        }
+
+        // Function to buy VIP pass
+        async function buyVipPass(pass) {
+            const passCosts = {
+                retailer: 1.99,
+                insider: 4.99,
+                big_bull: 8.99,
+                whale: 12.99,
+            };
+
+            const transaction = {
+                messages: [
+                    {
+                        address: "UQD-eNt2UlEcHm0aVyowq1ofEkloB-OIrDpclFR9ZgnoCbDc", // Your wallet address
+                        amount: (passCosts[pass] * 1000000000).toString(), // Convert TON to nanoton
+                    },
+                ],
+                validUntil: Math.floor(Date.now() / 1000) + 300, // 5 minutes
+            };
+
+            try {
+                // Send the transaction and wait for the result
+                const result = await tonConnectUI.sendTransaction(transaction);
+
+                // Verify the transaction
+                if (result && result.boc) {
+                    grantVipPass(pass); // Grant the VIP pass
+                    alert(`You purchased the ${pass} pass!`);
+                } else {
+                    alert("Transaction failed. Please try again.");
+                }
+            } catch (error) {
+                console.error("Transaction error:", error);
+                alert("An error occurred during the transaction. Please try again.");
+            }
+        }
+
+        // Function to grant VIP pass
+        function grantVipPass(pass) {
+            const expiryDate = new Date();
+            expiryDate.setDate(expiryDate.getDate() + 21); // 3 weeks expiry
+
+            switch (pass) {
+                case 'retailer':
+                    vipData = {
+                        pass: 'retailer',
+                        expiry: expiryDate,
+                        additionalClicks: 5000,
+                        pointsPerClick: 1,
+                    };
+                    waterPoints += 100000; // Add 100,000 Water Points
+                    break;
+                case 'insider':
+                    vipData = {
+                        pass: 'insider',
+                        expiry: expiryDate,
+                        additionalClicks: 11000,
+                        pointsPerClick: 10,
+                    };
+                    waterPoints += 1000000; // Add 1 million Water Points
+                    break;
+                case 'big_bull':
+                    vipData = {
+                        pass: 'big_bull',
+                        expiry: expiryDate,
+                        additionalClicks: 50000,
+                        pointsPerClick: 100,
+                    };
+                    waterPoints += 5000000; // Add 5 million Water Points
+                    break;
+                case 'whale':
+                    vipData = {
+                        pass: 'whale',
+                        expiry: expiryDate,
+                        additionalClicks: 100000,
+                        pointsPerClick: 1000,
+                    };
+                    waterPoints += 9000000; // Add 9 million Water Points
+                    break;
+            }
+
+            // Save VIP data
+            localStorage.setItem("vipData", JSON.stringify(vipData));
+            updateVipStatus();
+            updatePoints();
+            saveData();
+        }
+
+        // Function to check VIP expiry
+        function checkVipExpiry() {
+            if (vipData.expiry && new Date() > new Date(vipData.expiry)) {
+                vipData = {
+                    pass: null,
+                    expiry: null,
+                    additionalClicks: 0,
+                    pointsPerClick: 1,
+                };
+                localStorage.setItem("vipData", JSON.stringify(vipData));
+                updateVipStatus();
+            }
+        }
+
+        // Function to update VIP status
+        function updateVipStatus() {
+            const vipStatusElement = document.getElementById("vipStatus");
+            const vipExpiryElement = document.getElementById("vipExpiry");
+
+            if (vipData.pass) {
+                vipStatusElement.innerText = vipData.pass;
+                vipExpiryElement.innerText = new Date(vipData.expiry).toLocaleDateString();
+            } else {
+                vipStatusElement.innerText = "None";
+                vipExpiryElement.innerText = "N/A";
+            }
+        }
+
+        // Function to update Water Points
+        function updatePoints() {
+            document.getElementById("points").innerText = `Water Points: ${waterPoints}`;
+            document.getElementById("profilePoints").innerText = waterPoints;
+        }
+
+        // Function to update Water Level
+        function updateWaterLevel() {
+            let level = "Bottle";
+            if (waterPoints >= 10000000) {
+                level = "Ocean";
+            } else if (waterPoints >= 1000000) {
+                level = "Sea";
+            } else if (waterPoints >= 100000) {
+                level = "Pond";
+            } else if (waterPoints >= 10000) {
+                level = "Pool";
+            }
+            document.getElementById("waterLevel").innerText = `Level: ${level}`;
+            document.getElementById("profileLevel").innerText = level;
+        }
+
+        // Function to update leaderboard
+        function updateLeaderboard() {
+            const leaderboardBody = document.getElementById("leaderboardBody");
+            leaderboardBody.innerHTML = "";
+
+            // Add current user to leaderboard if not alreadypresent
+            const userIndex = leaderboard.findIndex(user => user.uid === userUID);
+            if (userIndex === -1) {
+                leaderboard.push({ uid: userUID, name: "User", points: waterPoints });
+            } else {
+                leaderboard[userIndex].points = waterPoints;
+            }
+
+            // Sort leaderboard by points
+            leaderboard.sort((a, b) => b.points - a.points);
+
+            // Display leaderboard
+            leaderboard.forEach((user, index) => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${user.name}</td>
+                    <td>${user.points}</td>
+                `;
+                leaderboardBody.appendChild(row);
+            });
+
+            // Save leaderboard data
+            localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+        }
+
+        // Function to copy referral link
+        function copyReferralLink() {
+            navigator.clipboard.writeText(referralLink).then(() => {
+                alert("Referral link copied to clipboard!");
+            });
+        }
+
+        // Function to save user data
+        function saveData() {
+            localStorage.setItem("waterPoints", waterPoints);
+            localStorage.setItem("tapCount", tapCount);
+            localStorage.setItem("completedTasks", JSON.stringify([...completedTasks]));
+        }
+
+        // Function to switch interfaces
+        function switchInterface(interfaceId) {
+            document.querySelectorAll('.interface').forEach(interface => {
+                interface.classList.remove('active');
+            });
+            document.getElementById(interfaceId).classList.add('active');
+
+            if (interfaceId === 'interface5') {
+                updateLeaderboard();
+            } else if (interfaceId === 'interface6') {
+                document.getElementById("userUID").innerText = userUID;
+                document.getElementById("profilePoints").innerText = waterPoints;
+                document.getElementById("profileLevel").innerText = document.getElementById("waterLevel").innerText;
+                updateVipStatus();
+            }
+        }
+
+        // Initialize data on page load
+        updatePoints();
+        updateWaterLevel();
+        checkVipExpiry();
+        updateVipStatus();
+    </script>
+</body>
+</html>
